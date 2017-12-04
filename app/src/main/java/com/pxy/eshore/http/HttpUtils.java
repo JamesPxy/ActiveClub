@@ -1,8 +1,10 @@
 package com.pxy.eshore.http;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.FieldNamingStrategy;
@@ -17,6 +19,8 @@ import java.lang.reflect.Field;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -124,6 +128,9 @@ public class HttpUtils {
         builder.addConverterFactory(new NullOnEmptyConverterFactory());
         builder.addConverterFactory(GsonConverterFactory.create(getGson()));
         builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
+        // TODO: 2017/12/4  新增init
+//        init(MyApplication.getInstance(), true);
+
         return builder;
     }
 
@@ -135,7 +142,6 @@ public class HttpUtils {
             builder.setFieldNamingStrategy(new AnnotateNaming());
             builder.serializeNulls();
             gson = builder.create();
-
         }
         return gson;
     }
@@ -174,11 +180,16 @@ public class HttpUtils {
             okBuilder.readTimeout(20, TimeUnit.SECONDS);
             okBuilder.connectTimeout(10, TimeUnit.SECONDS);
             okBuilder.writeTimeout(20, TimeUnit.SECONDS);
-            okBuilder.cache(new Cache(MyApplication.getInstance().getCacheDir(),10*1024*1024));//缓存位置和大小 10M
-//            okBuilder.addNetworkInterceptor(new MyInterceptor());
+            okBuilder.cache(new Cache(MyApplication.getInstance().getCacheDir(), 10 * 1024 * 1024));//缓存位置和大小 10M
 //            okBuilder.addInterceptor(new CacheInterceptor(true));
-//            okBuilder.addInterceptor(getInterceptor());
-            okBuilder.addNetworkInterceptor(new CacheInterceptor(true));
+//            okBuilder.addNetworkInterceptor(new CacheInterceptor(true));
+//
+            okBuilder.addInterceptor(getInterceptor());
+            okBuilder.addNetworkInterceptor(getInterceptor());
+
+//            okBuilder.addInterceptor(new BaseInterceptor(null, MyApplication.getInstance()));
+//            okBuilder.addNetworkInterceptor(new BaseInterceptor(null, MyApplication.getInstance()));
+
             okBuilder.sslSocketFactory(sslSocketFactory);
             okBuilder.hostnameVerifier(new HostnameVerifier() {
                 @Override
@@ -205,30 +216,6 @@ public class HttpUtils {
         this.listener = listener;
     }
 
-
-    class HttpHeadInterceptor implements Interceptor {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            Request.Builder builder = request.newBuilder();
-            builder.addHeader("Accept", "application/json;versions=1");
-            if (CheckNetwork.isNetworkConnected(context)) {
-                int maxAge = 60;
-                builder.addHeader("Cache-Control", "public,max-age=" + maxAge);
-            } else {
-                int maxStale = 60 * 60 * 24 * 28;
-                builder.addHeader("Cache-Control", "public, only-if-cached, max-stale=" + maxStale);
-            }
-            // 可添加token
-//            if (listener != null) {
-//                builder.addHeader("token", listener.getToken());
-//            }
-            // 如有需要，添加请求头
-//            builder.addHeader("a", HttpHead.getHeader(request.method()));
-            return chain.proceed(builder.build());
-        }
-    }
-
     private HttpLoggingInterceptor getInterceptor() {
         HttpLoggingInterceptor interceptor;
         //如果不是在正式包，添加拦截 打印响应json
@@ -249,34 +236,57 @@ public class HttpUtils {
         return interceptor;
     }
 
-    class MyInterceptor implements Interceptor {
+    /**
+     * BaseInterceptor
+     * Created by Tamic on 2016-7-15.
+     */
+    public class BaseInterceptor implements Interceptor {
+        private Map<String, String> headers;
+        private Context context;
+
+        public BaseInterceptor(Map<String, String> headers, Context context) {
+            this.headers = headers;
+            this.context = context;
+        }
 
         @Override
         public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
 
-            if (!CheckNetwork.isNetworkConnected(context)) {//没网强制从缓存读取(必须得写，不然断网状态下，退出应用，或者等待一分钟后，就获取不到缓存）
-                request = request.newBuilder()
-                        .cacheControl(CacheControl.FORCE_CACHE)
-                        .build();
+            Request.Builder builder = chain.request()
+                    .newBuilder();
+            builder.cacheControl(CacheControl.FORCE_CACHE).url(chain.request().url())
+                    .build();
+
+            if (!CheckNetwork.isNetworkConnected(context)) {
+
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(context, "当前无网络!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-            Response response = chain.proceed(request);
-            Response.Builder builder = response.newBuilder();
+            if (headers != null && headers.size() > 0) {
+                Set<String> keys = headers.keySet();
+                for (String headerKey : keys) {
+                    builder.addHeader(headerKey, headers.get(headerKey)).build();
+                }
+            }
 
             if (CheckNetwork.isNetworkConnected(context)) {
-                int maxAge = 60; //有网失效一分钟
-                builder.removeHeader("Pragma")
-                        .removeHeader("Cache-Control")
-                        .header("Cache-Control", "public, max-age=" + maxAge);
+                int maxAge = 60; // read from cache for 60 s
+                builder
+                        .removeHeader("Pragma")
+                        .addHeader("Cache-Control", "public, max-age=" + maxAge)
+                        .build();
             } else {
-                int maxStale = 60 * 60 * 24; // 没网失效24小时
-                builder.removeHeader("Pragma")
-                        .removeHeader("Cache-Control")
-                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale);
+                int maxStale = 60 * 60 * 24 * 14; // tolerate 2-weeks stale
+                builder
+                        .removeHeader("Pragma")
+                        .addHeader("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
+                        .build();
             }
-            return builder.build();
+            return chain.proceed(builder.build());
         }
-
     }
-
 }

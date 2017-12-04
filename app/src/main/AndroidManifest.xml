@@ -28,10 +28,11 @@
         <activity android:name=".ui.TopMovieActivity" />
         <activity
             android:name=".ui.TabActivity"
-            android:label="@string/title_activity_tab"></activity>
+            android:label="@string/title_activity_tab" />
         <activity
             android:name=".ui.MovieDetailActivity"
             android:label="@string/string_movie_detail" />
+        <activity android:name=".ui.WelfareActivity"></activity>
     </application>
 
 </manifest>

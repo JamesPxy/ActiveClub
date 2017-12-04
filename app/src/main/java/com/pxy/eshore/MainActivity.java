@@ -1,5 +1,6 @@
 package com.pxy.eshore;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,13 +15,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pxy.eshore.ui.TopMovieActivity;
+import com.pxy.eshore.ui.WelfareActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView tvContent;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         tvContent = findViewById(R.id.tv_main);
         setSupportActionBar(toolbar);
+        context = this;
 //        StatusBarUtil.setColor(this, CommonUtils.getColor(R.color.colorTheme));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -36,7 +41,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                        .setAction("Action", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(context, "Come on，keep  do  it!", Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
             }
         });
 
@@ -89,9 +99,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            startActivity(new Intent(MainActivity.this, TopMovieActivity.class));
+            startActivity(new Intent(context, TopMovieActivity.class));
         } else if (id == R.id.nav_gallery) {
-
+            startActivity(new Intent(context, WelfareActivity.class));
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
