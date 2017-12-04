@@ -1,0 +1,73 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.pxy.eshore"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    // dataBinding 加入
+    dataBinding {
+        enabled = true
+    }
+    greendao {
+        schemaVersion 1 //数据库版本号
+        daoPackage 'com.pxy.greendao.gen'//生成的DAO，DaoMaster和DaoSession的包名。默认是实体的包名。
+//    generateTests true  //是否生成单元测试
+//    targetGenDir 'src/main/java'  // 生成的单元测试的根目录。
+    }
+
+}
+repositories {
+    flatDir {
+        dirs 'libs', '../libs'
+    }
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
+    implementation 'com.android.support:design:26.0.0-beta1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:support-vector-drawable:26.0.0-beta1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
+
+    compile 'io.reactivex:rxandroid:1.2.0'
+
+    // 网络请求
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation('com.squareup.retrofit2:retrofit:2.1.0') {
+        exclude module: 'com.squareup.okhttp3:okhttp:3.4.1'
+        exclude module: 'com.squareup.okio:okio:1.9.0'
+    }
+    implementation 'com.squareup.okhttp3:okhttp:3.4.2'
+    implementation 'com.squareup.okio:okio:1.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-1'//没有使用特殊Header，可以不加这行
+
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+
+    implementation 'org.greenrobot:greendao:3.2.0'
+
+}
