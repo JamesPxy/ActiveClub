@@ -10,7 +10,9 @@ import com.pxy.eshore.base.BaseActivity;
 import com.pxy.eshore.bean.GankIoDataBean;
 import com.pxy.eshore.databinding.ActivityWelfareBinding;
 import com.pxy.eshore.http.HttpClient;
+import com.scwang.smartrefresh.header.BezierCircleHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -34,17 +36,22 @@ public class WelfareActivity extends BaseActivity<ActivityWelfareBinding> {
         setTitle("福利");
         getWelfareData();
 
+        bindingView.refreshLayout.setRefreshHeader(new BezierCircleHeader(this));
+
+        bindingView.refreshLayout.setRefreshFooter(new BallPulseFooter(this));
+
         bindingView.refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-
+                page++;
+                getWelfareData();
             }
         });
 
         bindingView.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-
+                bindingView.refreshLayout.finishRefresh(2000);
             }
         });
     }
@@ -52,11 +59,11 @@ public class WelfareActivity extends BaseActivity<ActivityWelfareBinding> {
     private void setWelfareAdapter(GankIoDataBean gankIoDataBean) {
         if (null == welfareAdapter) {
             welfareAdapter = new WelfareAdapter();
+            //构造器中，第一个参数表示列数或者行数，第二个参数表示滑动方向,瀑布流
+            bindingView.recyclerview.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            bindingView.recyclerview.setAdapter(welfareAdapter);
         }
         welfareAdapter.addAll(gankIoDataBean.getResults());
-        //构造器中，第一个参数表示列数或者行数，第二个参数表示滑动方向,瀑布流
-        bindingView.recyclerview.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        bindingView.recyclerview.setAdapter(welfareAdapter);
         welfareAdapter.notifyDataSetChanged();
     }
 
@@ -74,6 +81,7 @@ public class WelfareActivity extends BaseActivity<ActivityWelfareBinding> {
                     public void onCompleted() {
                         Log.e(TAG, "onCompleted: ");
                         showContentView();
+                        bindingView.refreshLayout.finishLoadmore();
                     }
 
                     @Override

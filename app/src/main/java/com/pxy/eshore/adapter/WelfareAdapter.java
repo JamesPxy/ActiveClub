@@ -8,11 +8,12 @@ import com.pxy.eshore.base.baseadapter.BaseRecyclerViewAdapter;
 import com.pxy.eshore.base.baseadapter.BaseRecyclerViewHolder;
 import com.pxy.eshore.bean.GankIoDataBean;
 import com.pxy.eshore.databinding.ItemWelfareBinding;
+import com.pxy.eshore.utils.DensityUtils;
 
 /**
  * @author JamesPxy
  * @date 2017/12/4  16:48
- * @Description
+ * @Description 福利图 适配器
  */
 
 public class WelfareAdapter extends BaseRecyclerViewAdapter<GankIoDataBean.ResultBean> {
@@ -36,11 +37,11 @@ public class WelfareAdapter extends BaseRecyclerViewAdapter<GankIoDataBean.Resul
              * 这样item不能复用，所以下拉刷新成功后显示会闪一下
              * 换成每个item设置上下左右边距是一样的话，系统就会复用，就消除了图片不能复用 闪跳的情况
              */
-//            if (position % 2 == 0) {
-//                DensityUtil.setViewMargin(itemView, false, 12, 6, 12, 0);
-//            } else {
-//                DensityUtil.setViewMargin(itemView, false, 6, 12, 12, 0);
-//            }
+            if (position % 2 == 0) {
+                DensityUtils.setViewMargin(itemView, false, 12, 6, 12, 0);
+            } else {
+                DensityUtils.setViewMargin(itemView, false, 6, 12, 12, 0);
+            }
             binding.setBean(resultsBean);
             // 仿抖动
             binding.executePendingBindings();
