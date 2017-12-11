@@ -32,7 +32,8 @@
         <activity
             android:name=".ui.MovieDetailActivity"
             android:label="@string/string_movie_detail" />
-        <activity android:name=".ui.WelfareActivity"></activity>
+        <activity android:name=".ui.WelfareActivity" />
+        <activity android:name=".ui.HotMovieActivity"></activity>
     </application>
 
 </manifest>

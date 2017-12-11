@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pxy.eshore.ui.HotMovieActivity;
 import com.pxy.eshore.ui.TopMovieActivity;
 import com.pxy.eshore.ui.WelfareActivity;
 
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             startActivity(new Intent(context, WelfareActivity.class));
         } else if (id == R.id.nav_slideshow) {
-
+            startActivity(new Intent(context, HotMovieActivity.class));
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
