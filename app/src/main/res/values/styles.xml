@@ -27,6 +27,12 @@
         <!--正常状态下字体颜色和icon颜色-->
         <!--<item name="android:textColorPrimary">@color/colorTheme</item>-->
     </style>
+    <!--闪屏页 防止启动白屏增加配置：-->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
 
 
     <!--电影详情页-->

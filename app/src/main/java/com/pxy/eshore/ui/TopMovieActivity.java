@@ -8,12 +8,17 @@ import android.util.Log;
 import com.pxy.eshore.R;
 import com.pxy.eshore.adapter.DouBanTopAdapter;
 import com.pxy.eshore.base.BaseActivity;
+import com.pxy.eshore.base.Constants;
 import com.pxy.eshore.bean.GankIoDataBean;
 import com.pxy.eshore.bean.HotMovieBean;
+import com.pxy.eshore.bean.moviechild.SubjectsBean;
 import com.pxy.eshore.databinding.ActivityTopMovieBinding;
 import com.pxy.eshore.http.HttpClient;
+import com.pxy.eshore.http.network.cache.ACache;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+
+import java.util.List;
 
 import rx.Observer;
 import rx.Subscription;
@@ -26,6 +31,7 @@ public class TopMovieActivity extends BaseActivity<ActivityTopMovieBinding> {
     private int mStart = 0;
     private int mCount = 20;
     private DouBanTopAdapter mDouBanTopAdapter;
+    private ACache aCache;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -34,7 +40,8 @@ public class TopMovieActivity extends BaseActivity<ActivityTopMovieBinding> {
         setContentView(R.layout.activity_top_movie);
         setTitle("豆瓣电影Top250");
 //        StatusBarUtil.setColor(this, R.color.colorPrimary);
-        mDouBanTopAdapter = new DouBanTopAdapter(this);
+        aCache = ACache.get(this);
+
         //请求获取豆瓣TOP250电影数据
         getTop250Movie();
 
@@ -45,7 +52,21 @@ public class TopMovieActivity extends BaseActivity<ActivityTopMovieBinding> {
                 getTop250Movie();
             }
         });
+    }
 
+    public void setAdapter(List<SubjectsBean> data) {
+        if (null == mDouBanTopAdapter) {
+            mDouBanTopAdapter = new DouBanTopAdapter(this);
+            mDouBanTopAdapter.addAll(data);
+            bindingView.recyclerview.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+            bindingView.recyclerview.setAdapter(mDouBanTopAdapter);
+        } else {
+            mDouBanTopAdapter.clear();
+            mDouBanTopAdapter.addAll(data);
+            //构造器中，第一个参数表示列数或者行数，第二个参数表示滑动方向,瀑布流
+            mDouBanTopAdapter.notifyDataSetChanged();
+        }
+        bindingView.refreshLayout.finishLoadmore();
     }
 
 
@@ -68,34 +89,50 @@ public class TopMovieActivity extends BaseActivity<ActivityTopMovieBinding> {
                     @Override
                     public void onError(Throwable e) {
                         bindingView.refreshLayout.finishLoadmore();
-                        if (mDouBanTopAdapter.getItemCount() == 0) {
+                        HotMovieBean bean = (HotMovieBean) aCache.getAsObject(Constants.DOUBAN_TOP_MOVIE);
+                        if (null != bean) {
+                            setAdapter(bean.getSubjects());
+                            showContentView();
+                        } else {
                             showError();
                         }
+//                        if (mDouBanTopAdapter.getItemCount() == 0) {
+//                            showError();
+//                        }
                     }
 
                     @Override
                     public void onNext(HotMovieBean hotMovieBean) {
                         Log.d(TAG, "onNext: " + hotMovieBean.toString());
-                        if (mStart == 0) {
-                            if (hotMovieBean != null && hotMovieBean.getSubjects() != null && hotMovieBean.getSubjects().size() > 0) {
-                                mDouBanTopAdapter.clear();
-                                mDouBanTopAdapter.addAll(hotMovieBean.getSubjects());
-                                //构造器中，第一个参数表示列数或者行数，第二个参数表示滑动方向,瀑布流
-                                bindingView.recyclerview.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
-                                bindingView.recyclerview.setAdapter(mDouBanTopAdapter);
-                                mDouBanTopAdapter.notifyDataSetChanged();
-                            } else {
-                                showError();
-                            }
-                        } else {
-                            if (hotMovieBean != null && hotMovieBean.getSubjects() != null && hotMovieBean.getSubjects().size() > 0) {
-                                bindingView.refreshLayout.finishLoadmore();
-                                mDouBanTopAdapter.addAll(hotMovieBean.getSubjects());
-                                mDouBanTopAdapter.notifyDataSetChanged();
-                            } else {
-                                bindingView.refreshLayout.finishLoadmore();
-                            }
+                        if (null != hotMovieBean) {
+                            aCache.remove(Constants.DOUBAN_TOP_MOVIE);
+                            aCache.put(Constants.DOUBAN_TOP_MOVIE, hotMovieBean, Constants.CACHE_TIME);
                         }
+                        if (hotMovieBean != null && hotMovieBean.getSubjects() != null && hotMovieBean.getSubjects().size() > 0) {
+                            setAdapter(hotMovieBean.getSubjects());
+                        } else {
+                            showError();
+                        }
+//                        if (mStart == 0) {
+//                            if (hotMovieBean != null && hotMovieBean.getSubjects() != null && hotMovieBean.getSubjects().size() > 0) {
+//                                mDouBanTopAdapter.clear();
+//                                mDouBanTopAdapter.addAll(hotMovieBean.getSubjects());
+//                                //构造器中，第一个参数表示列数或者行数，第二个参数表示滑动方向,瀑布流
+//                                bindingView.recyclerview.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+//                                bindingView.recyclerview.setAdapter(mDouBanTopAdapter);
+//                                mDouBanTopAdapter.notifyDataSetChanged();
+//                            } else {
+//                                showError();
+//                            }
+//                        } else {
+//                            if (hotMovieBean != null && hotMovieBean.getSubjects() != null && hotMovieBean.getSubjects().size() > 0) {
+//                                bindingView.refreshLayout.finishLoadmore();
+//                                mDouBanTopAdapter.addAll(hotMovieBean.getSubjects());
+//                                mDouBanTopAdapter.notifyDataSetChanged();
+//                            } else {
+//                                bindingView.refreshLayout.finishLoadmore();
+//                            }
+//                        }
                     }
                 });
         addSubscription(subscription);

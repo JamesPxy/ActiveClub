@@ -5,6 +5,7 @@ import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.pxy.eshore.R;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -184,4 +185,21 @@ public class ImgLoadUtil {
     public static void showImgBg(ImageView imageView, String url) {
         displayGaussian(imageView.getContext(), url, imageView);
     }
+
+    /**
+     * 显示闪屏页图片
+     *
+     * @param imageView
+     * @param url
+     */
+    @BindingAdapter("android:showSplashImg")
+    public static void showSplashImg(ImageView imageView, String url) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.img_transition_default)
+                .error(R.drawable.img_transition_default)
+                .into(imageView);
+    }
+
 }

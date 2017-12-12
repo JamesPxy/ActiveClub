@@ -2,8 +2,11 @@ package com.pxy.eshore.adapter;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.pxy.eshore.R;
 import com.pxy.eshore.base.baseadapter.BaseRecyclerViewAdapter;
@@ -46,24 +49,24 @@ public class DouBanTopAdapter extends BaseRecyclerViewAdapter<SubjectsBean> {
                     MovieDetailActivity.start(activity, bean, binding.ivTopPhoto);
                 }
             });
-//            binding.llItemTop.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View v) {
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-//                    View view = View.inflate(v.getContext(), R.layout.title_douban_top, null);
-//                    TextView titleTop = (TextView) view.findViewById(R.id.title_top);
-//                    titleTop.setText("Top" + (position + 1) + ": " + bean.getTitle());
-//                    builder.setCustomTitle(view);
-//                    builder.setPositiveButton("查看详情", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            OneMovieDetailActivity.start(activity, bean, binding.ivTopPhoto);
-//                        }
-//                    });
-//                    builder.show();
-//                    return false;
-//                }
-//            });
+            binding.llItemTop.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    View view = View.inflate(v.getContext(), R.layout.title_douban_top, null);
+                    TextView titleTop = (TextView) view.findViewById(R.id.title_top);
+                    titleTop.setText("Top" + (position + 1) + ": " + bean.getTitle());
+                    builder.setCustomTitle(view);
+                    builder.setPositiveButton("查看详情", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MovieDetailActivity.start(activity, bean, binding.ivTopPhoto);
+                        }
+                    });
+                    builder.show();
+                    return false;
+                }
+            });
         }
     }
 }

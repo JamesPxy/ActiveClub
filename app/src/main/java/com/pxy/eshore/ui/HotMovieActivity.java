@@ -8,10 +8,12 @@ import android.widget.Toast;
 import com.pxy.eshore.R;
 import com.pxy.eshore.adapter.HotMovieAdapter;
 import com.pxy.eshore.base.BaseActivity;
+import com.pxy.eshore.base.Constants;
 import com.pxy.eshore.bean.HotMovieBean;
 import com.pxy.eshore.bean.moviechild.SubjectsBean;
 import com.pxy.eshore.databinding.ActivityHotMovieBinding;
 import com.pxy.eshore.http.HttpClient;
+import com.pxy.eshore.http.network.cache.ACache;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -27,6 +29,7 @@ public class HotMovieActivity extends BaseActivity<ActivityHotMovieBinding> {
     private HotMovieAdapter hotMovieAdapter;
     private List<SubjectsBean> data;
     private Context context;
+    private ACache aCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class HotMovieActivity extends BaseActivity<ActivityHotMovieBinding> {
         setContentView(R.layout.activity_hot_movie);
         setTitle("电影热映榜");
         context = this;
+        aCache = ACache.get(context);
         getHotMovie(true);
 
 //        bindingView.refreshLayout.setEnableLoadmore(false);
@@ -76,26 +80,25 @@ public class HotMovieActivity extends BaseActivity<ActivityHotMovieBinding> {
 
                     @Override
                     public void onError(Throwable e) {
-                        showError();
+                        HotMovieBean cache = (HotMovieBean) aCache.getAsObject(Constants.DOUBAN_HOT_MOVIE);
+                        //有缓存则使用缓存
+                        if (cache != null) {
+                            data = cache.getSubjects();
+                            setAdapter();
+                            showContentView();
+                        } else {
+                            showError();
+                        }
                     }
 
                     @Override
                     public void onNext(HotMovieBean hotMovieBean) {
-                        // TODO: 2017/12/11 处理缓存相关 
-//                        aCache = ACache.get(getActivity());
-//                        oneAdapter = new OneAdapter(activity);
-//                        mHotMovieBean = (HotMovieBean) aCache.getAsObject(SyncStateContract.Constants.ONE_HOT_MOVIE);
-//                        if (hotMovieBean != null) {
-//                            aCache.remove(SyncStateContract.Constants.ONE_HOT_MOVIE);
-//                            // 保存12个小时
-//                            aCache.put(Constants.ONE_HOT_MOVIE, hotMovieBean, 43200);
-//                            setAdapter(hotMovieBean);
-//                            // 保存请求的日期
-//                            SPUtils.putString("one_data", TimeUtil.getData());
-//                            // 刷新结束
-//                            mIsLoading = false;
-//                        }
-
+                        //处理缓存相关
+                        if (hotMovieBean != null) {
+                            aCache.remove(Constants.DOUBAN_HOT_MOVIE);
+                            // 保存12个小时
+                            aCache.put(Constants.DOUBAN_HOT_MOVIE, hotMovieBean, Constants.CACHE_TIME);
+                        }
                         data = hotMovieBean.getSubjects();
                         if (null != data) {
                             setAdapter();

@@ -50,6 +50,7 @@ public class HotMovieAdapter extends RecyclerView.Adapter<HotMovieAdapter.MyView
         public MyViewHolder(ViewGroup parent, int layoutId) {
             // 注意要依附 viewGroup，不然显示item不全!!
             super(DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), layoutId, parent, false).getRoot());
+//            super(LayoutInflater.from(parent.getContext()).inflate(layoutId,null));
             // 得到这个View绑定的Binding
             binding = DataBindingUtil.getBinding(this.itemView);
         }
