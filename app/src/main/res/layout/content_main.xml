@@ -8,6 +8,26 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.pxy.eshore.MainActivity">
 
+    <com.pxy.recyclerbaner.RecyclerBannerStereo
+        android:id="@+id/banner1"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        app:indicatorGravity="center"
+        app:indicatorSelectedSrc="@drawable/icon_back"
+        app:indicatorUnselectedSrc="@drawable/ic_menu_camera"
+        app:interval="3000"></com.pxy.recyclerbaner.RecyclerBannerStereo>
+    <!--
+    app:indicatorSelectedSrc="@color/colorTheme"
+            app:indicatorUnselectedSrc="@color/colorPrimaryDark"
+    -->
+    <com.pxy.recyclerbaner.RecyclerBannerNormal
+        android:id="@+id/banner2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        app:orientation="horizontal"></com.pxy.recyclerbaner.RecyclerBannerNormal>
+
     <TextView
         android:id="@+id/tv_main"
         android:layout_width="wrap_content"

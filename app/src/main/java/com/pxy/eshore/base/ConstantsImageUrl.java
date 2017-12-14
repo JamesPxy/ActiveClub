@@ -87,7 +87,7 @@ public class ConstantsImageUrl {
     private static final String HOME_SIX_1 = "http://ojyz0c8un.bkt.clouddn.com/home_six_1.png";
     private static ArrayList<String> sixList;
 
-    private static ArrayList<String> getSixUrl() {
+    public static ArrayList<String> getSixUrl() {
 //        DebugUtil.error("sixList == null:   " + (sixList == null));
         if (sixList == null) {
             synchronized (ArrayList.class) {
