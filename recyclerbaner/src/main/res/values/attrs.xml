@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- declare-styleable表示为自定义的属性-->
+    <!-- format表示为可接受的参数类型-->
+    <!--integer int型-->
+    <!--boolean boolean-->
+    <!--color 颜色-->
+    <!--dimension 尺寸-->
+    <!--enum 枚举-->
+    <!--flag 位或运算-->
+    <!--float float型-->
+    <!--fraction 百分数-->
+    <!--reference 资源文件-->
+    <!--string 字符串-->
     <declare-styleable name="RecyclerBanner">
         <attr name="interval" format="integer" />
         <attr name="showIndicator" format="boolean" />
-        <attr name="indicatorSelectedSrc" format="color|reference" />
-        <attr name="indicatorUnselectedSrc" format="color|reference" />
+        <attr name="indicatorSelectedSrc" format="reference" />
+        <attr name="indicatorUnselectedSrc" format="reference" />
+        <attr name="indicatorSelectedColor" format="color|reference" />
+        <attr name="indicatorUnselectedColor" format="color|reference" />
         <attr name="indicatorSpace" format="dimension|reference" />
         <attr name="indicatorMarginLeft" format="dimension|reference" />
         <attr name="indicatorMarginRight" format="dimension|reference" />
@@ -19,6 +33,7 @@
             <enum name="vertical" value="1" />
         </attr>
         <attr name="autoPlay" format="boolean" />
+        <attr name="itemSpace" format="dimension|reference" />
     </declare-styleable>
 
 

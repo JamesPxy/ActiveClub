@@ -1,5 +1,6 @@
 package com.pxy.recyclerbaner;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -32,7 +33,7 @@ import java.util.List;
 /**
  * @author JamesPxy
  * @time 2017/12/14
- * @Description 基础轮播组件
+ * @Description 轮播组件基类
  */
 public abstract class RecyclerBannerBase<L extends RecyclerView.LayoutManager, A extends BaseBannerAdapter> extends FrameLayout {
 
@@ -42,8 +43,12 @@ public abstract class RecyclerBannerBase<L extends RecyclerView.LayoutManager, A
     protected RecyclerView indicatorContainer;
     protected Drawable mSelectedDrawable;
     protected Drawable mUnselectedDrawable;
+    protected int mSelectedColor;
+    protected int mUnSelectedColor;
     protected IndicatorAdapter indicatorAdapter;
     protected int indicatorMargin;//指示器间距
+    protected int itemSpace;//3D效果图片间距
+
 
     protected RecyclerView mRecyclerView;
     protected A adapter;
@@ -88,18 +93,23 @@ public abstract class RecyclerBannerBase<L extends RecyclerView.LayoutManager, A
         initView(context, attrs);
     }
 
+    @SuppressLint("ResourceAsColor")
     protected void initView(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RecyclerBanner);
         showIndicator = a.getBoolean(R.styleable.RecyclerBanner_showIndicator, true);
         autoPlayDuration = a.getInt(R.styleable.RecyclerBanner_interval, 4000);
         isAutoPlaying = a.getBoolean(R.styleable.RecyclerBanner_autoPlay, true);
+        itemSpace = a.getDimensionPixelSize(R.styleable.RecyclerBanner_itemSpace, dp2px(5));
         mSelectedDrawable = a.getDrawable(R.styleable.RecyclerBanner_indicatorSelectedSrc);
         mUnselectedDrawable = a.getDrawable(R.styleable.RecyclerBanner_indicatorUnselectedSrc);
+        mSelectedColor = a.getColor(R.styleable.RecyclerBanner_indicatorSelectedColor, android.R.color.white);
+        mUnSelectedColor = a.getColor(R.styleable.RecyclerBanner_indicatorUnselectedColor, android.R.color.black);
         if (mSelectedDrawable == null) {
             //绘制默认选中状态图形
             GradientDrawable selectedGradientDrawable = new GradientDrawable();
             selectedGradientDrawable.setShape(GradientDrawable.OVAL);
-            selectedGradientDrawable.setColor(getColor(android.R.color.white));
+            selectedGradientDrawable.setColor(mSelectedColor);
+//            selectedGradientDrawable.setColor(getColor(android.R.color.white));
             selectedGradientDrawable.setSize(dp2px(5), dp2px(5));
             selectedGradientDrawable.setCornerRadius(dp2px(5) / 2);
             mSelectedDrawable = new LayerDrawable(new Drawable[]{selectedGradientDrawable});
@@ -108,7 +118,8 @@ public abstract class RecyclerBannerBase<L extends RecyclerView.LayoutManager, A
             //绘制默认未选中状态图形
             GradientDrawable unSelectedGradientDrawable = new GradientDrawable();
             unSelectedGradientDrawable.setShape(GradientDrawable.OVAL);
-            unSelectedGradientDrawable.setColor(getColor(android.R.color.black));
+            unSelectedGradientDrawable.setColor(mUnSelectedColor);
+//            unSelectedGradientDrawable.setColor(getColor(android.R.color.black));
             unSelectedGradientDrawable.setSize(dp2px(5), dp2px(5));
             unSelectedGradientDrawable.setCornerRadius(dp2px(5) / 2);
             mUnselectedDrawable = new LayerDrawable(new Drawable[]{unSelectedGradientDrawable});

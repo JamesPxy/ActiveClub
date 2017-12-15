@@ -27,7 +27,6 @@ public class RecyclerBannerNormal extends RecyclerBannerBase<LinearLayoutManager
 
     public RecyclerBannerNormal(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
     }
 
 

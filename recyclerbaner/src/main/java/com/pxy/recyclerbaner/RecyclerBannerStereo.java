@@ -46,8 +46,7 @@ public class RecyclerBannerStereo extends RecyclerBannerBase<BannerLayoutManager
 
     @Override
     protected BannerLayoutManager getLayoutManager(Context context, int orientation) {
-        //todo 可以提取出去 作为公共属性  图片间距5dp
-        return new BannerLayoutManager(orientation, dp2px(5));
+        return new BannerLayoutManager(orientation, itemSpace);
     }
 
     @Override

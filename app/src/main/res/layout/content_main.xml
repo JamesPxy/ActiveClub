@@ -14,9 +14,10 @@
         android:layout_height="200dp"
         android:layout_margin="10dp"
         app:indicatorGravity="center"
-        app:indicatorSelectedSrc="@drawable/icon_back"
-        app:indicatorUnselectedSrc="@drawable/ic_menu_camera"
-        app:interval="3000"></com.pxy.recyclerbaner.RecyclerBannerStereo>
+        app:indicatorSelectedSrc="@drawable/icon_white"
+        app:indicatorUnselectedSrc="@drawable/icon_black"
+        app:interval="3000"
+        app:itemSpace="8dp"></com.pxy.recyclerbaner.RecyclerBannerStereo>
     <!--
     app:indicatorSelectedSrc="@color/colorTheme"
             app:indicatorUnselectedSrc="@color/colorPrimaryDark"
@@ -26,6 +27,9 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="10dp"
+        app:indicatorGravity="center"
+        app:indicatorSelectedColor="@color/colorTheme"
+        app:indicatorUnselectedColor="@color/colorPrimaryDark"
         app:orientation="horizontal"></com.pxy.recyclerbaner.RecyclerBannerNormal>
 
     <TextView

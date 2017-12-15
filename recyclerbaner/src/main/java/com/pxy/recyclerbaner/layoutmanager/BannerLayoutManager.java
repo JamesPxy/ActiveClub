@@ -18,7 +18,7 @@ public class BannerLayoutManager extends RecyclerView.LayoutManager implements R
     /**
      * 图片放大比例
      */
-    private static final float SCALE_RATE = 1.3f;
+    private static final float SCALE_RATE = 1.2f;
     private int mOrientation = HORIZONTAL;
 
     private static final int HORIZONTAL = OrientationHelper.HORIZONTAL;
