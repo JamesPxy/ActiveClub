@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 toMainActivity();
             }
-        }, 3000);
+        }, 500);
 
         bindingView.tvJump.setOnClickListener(new View.OnClickListener() {
             @Override
