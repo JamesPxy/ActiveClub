@@ -15,28 +15,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.pxy.eshore.ui.HotMovieActivity;
 import com.pxy.eshore.ui.TopMovieActivity;
 import com.pxy.eshore.ui.WelfareActivity;
 import com.pxy.eshore.ui.fragment.HomeFragment;
-import com.pxy.recyclerbaner.RecyclerBannerBase;
-import com.pxy.recyclerbaner.RecyclerBannerStereo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
     private Context context;
+    private DrawerLayout drawer;
 
-    private RecyclerBannerStereo bannerStereo;
     private BottomNavigationView bottomNavigationView;
-    private LinearLayout fragmentContainer;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -65,17 +57,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
-        bannerStereo = findViewById(R.id.banner1);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        fragmentContainer = findViewById(R.id.fragment_container);
 //        setSupportActionBar(toolbar);
         // 设置透明状态栏
 //        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorTheme), 0);
 //        StatusBarUtil.setTranslucent(this);
+
+//        StatusBarUtil.setColorNoTranslucentForDrawerLayout(MainActivity.this, drawer,
+//                CommonUtils.getColor(R.color.colorTheme));
         setToolBar();
         context = this;
         setDrawerLayout();
-        setBanner();
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         showFragment(new HomeFragment("首页"));
     }
@@ -93,7 +85,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private void setDrawerLayout() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -114,27 +106,6 @@ public class MainActivity extends AppCompatActivity
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
-    }
-
-    /**
-     * 设置首页轮播图
-     */
-    private void setBanner() {
-        List<String> list = new ArrayList<>();
-        list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1510833032476&di=3998d3aaa2e006c1120c8534311e9a81&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F810a19d8bc3eb135275b10f1ae1ea8d3fc1f44df.jpg");
-        list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1510833032475&di=8ceb2f76c9bed8a2ebaf5ba85efd4440&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fb%2F591953d9ce3cb.jpg");
-        list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1510833032475&di=4cf3e1192a9e58529440d213de48a95a&imgtype=0&src=http%3A%2F%2Fimg.7xz.com%2Fimg%2Fpicimg%2F201607%2F20160715161145_327a1d30f651dab8932.jpg");
-        list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1510833032474&di=3723ba473a9c92dc420e2538a9aa584e&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2Fc%2F57450b9a295f5.jpg");
-//        list.add("http://ojyz0c8un.bkt.clouddn.com/home_two_08.png");
-//        list.add("http://ojyz0c8un.bkt.clouddn.com/home_two_07.png");
-//        list.add("http://ojyz0c8un.bkt.clouddn.com/home_two_09.png");
-
-        bannerStereo.initBannerImageView(list, new RecyclerBannerBase.OnBannerItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Toast.makeText(MainActivity.this, "clicked:" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

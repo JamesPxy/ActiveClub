@@ -19,11 +19,13 @@
 
     <!-- 网易红为主色调 -->
     <style name="MyThemeRed" parent="Theme.AppCompat.Light.NoActionBar">
-
         <!--选中状态icon的颜色和字体颜色-->
         <item name="colorPrimary">@color/colorTheme</item>
         <item name="colorPrimaryDark">@color/colorTheme</item>
         <item name="colorAccent">@color/colorTheme</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
         <!--正常状态下字体颜色和icon颜色-->
         <!--<item name="android:textColorPrimary">@color/colorTheme</item>-->
     </style>
@@ -32,8 +34,8 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
-
 
     <!--电影详情页-->
     <style name="MyScrollPage" parent="Theme.AppCompat.Light.NoActionBar">

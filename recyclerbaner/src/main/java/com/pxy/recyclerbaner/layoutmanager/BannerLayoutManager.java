@@ -11,7 +11,7 @@ import static android.support.v7.widget.RecyclerView.NO_POSITION;
 
 
 /**
- * 自定义实现Recycler对应的layoutManger
+ * 自定义实现StereoRecycler对应的layoutManger
  */
 public class BannerLayoutManager extends RecyclerView.LayoutManager implements RecyclerView.SmoothScroller.ScrollVectorProvider {
 

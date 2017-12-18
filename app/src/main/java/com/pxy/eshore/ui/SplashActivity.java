@@ -12,7 +12,6 @@ import com.pxy.eshore.MainActivity;
 import com.pxy.eshore.R;
 import com.pxy.eshore.base.ConstantsImageUrl;
 import com.pxy.eshore.databinding.ActivitySplashBinding;
-import com.pxy.eshore.utils.StatusBarUtil;
 
 import java.util.Random;
 
@@ -31,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setTranslucent(this);
+//        StatusBarUtil.setTranslucent(this);
 //        StatusBarUtil.setTranslucentForCoordinatorLayout(this,0);
         bindingView = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         //随机加载闪屏图

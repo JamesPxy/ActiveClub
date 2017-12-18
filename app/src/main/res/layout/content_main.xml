@@ -8,17 +8,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.pxy.eshore.MainActivity">
 
-    <com.pxy.recyclerbaner.RecyclerBannerStereo
-        android:id="@+id/banner1"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:indicatorGravity="center"
-        app:indicatorSelectedSrc="@drawable/icon_white"
-        app:indicatorUnselectedSrc="@drawable/icon_black"
-        app:interval="2000"
-        app:itemSpace="5dp"></com.pxy.recyclerbaner.RecyclerBannerStereo>
-
-    <com.pxy.recyclerbaner.RecyclerBannerNormal
+<!--    <com.pxy.recyclerbaner.RecyclerBannerNormal
         android:id="@+id/banner2"
         android:layout_width="match_parent"
         android:layout_height="180dp"
@@ -27,7 +17,7 @@
         app:indicatorGravity="center"
         app:indicatorSelectedColor="@color/colorTheme"
         app:indicatorUnselectedColor="@color/colorPrimaryDark"
-        app:orientation="horizontal"></com.pxy.recyclerbaner.RecyclerBannerNormal>
+        app:orientation="horizontal"></com.pxy.recyclerbaner.RecyclerBannerNormal>-->
 
     <LinearLayout
         android:id="@+id/fragment_container"

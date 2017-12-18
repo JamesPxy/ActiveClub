@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 3D立体轮播页适配器
  */
-public class StereoBannerAdapter extends BaseBannerAdapter<StereoBannerAdapter.MzViewHolder> {
+public class StereoBannerAdapter extends BaseBannerAdapter<StereoBannerAdapter.MyViewHolder> {
 
     private RecyclerBannerBase.OnBannerItemClickListener onBannerItemClickListener;
 
@@ -27,12 +27,12 @@ public class StereoBannerAdapter extends BaseBannerAdapter<StereoBannerAdapter.M
     }
 
     @Override
-    protected StereoBannerAdapter.MzViewHolder createCustomViewHolder(ViewGroup parent, int viewType) {
-        return new MzViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false));
+    protected MyViewHolder createCustomViewHolder(ViewGroup parent, int viewType) {
+        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false));
     }
 
     @Override
-    public void bindCustomViewHolder(MzViewHolder holder, final int position) {
+    public void bindCustomViewHolder(MyViewHolder holder, final int position) {
         if (urlList == null || urlList.isEmpty())
             return;
         String url = urlList.get(position % urlList.size());
@@ -48,10 +48,10 @@ public class StereoBannerAdapter extends BaseBannerAdapter<StereoBannerAdapter.M
         });
     }
 
-    class MzViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
-        MzViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.image);
         }

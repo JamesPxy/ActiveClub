@@ -108,7 +108,7 @@ public abstract class RecyclerBannerBase<L extends RecyclerView.LayoutManager, A
             //绘制默认选中状态图形
             GradientDrawable selectedGradientDrawable = new GradientDrawable();
             selectedGradientDrawable.setShape(GradientDrawable.OVAL);
-            selectedGradientDrawable.setColor(mSelectedColor);
+            selectedGradientDrawable.setColor(getColor(mSelectedColor));
 //            selectedGradientDrawable.setColor(getColor(android.R.color.white));
             selectedGradientDrawable.setSize(dp2px(5), dp2px(5));
             selectedGradientDrawable.setCornerRadius(dp2px(5) / 2);
@@ -118,7 +118,7 @@ public abstract class RecyclerBannerBase<L extends RecyclerView.LayoutManager, A
             //绘制默认未选中状态图形
             GradientDrawable unSelectedGradientDrawable = new GradientDrawable();
             unSelectedGradientDrawable.setShape(GradientDrawable.OVAL);
-            unSelectedGradientDrawable.setColor(mUnSelectedColor);
+            unSelectedGradientDrawable.setColor(getColor(mUnSelectedColor));
 //            unSelectedGradientDrawable.setColor(getColor(android.R.color.black));
             unSelectedGradientDrawable.setSize(dp2px(5), dp2px(5));
             unSelectedGradientDrawable.setCornerRadius(dp2px(5) / 2);
