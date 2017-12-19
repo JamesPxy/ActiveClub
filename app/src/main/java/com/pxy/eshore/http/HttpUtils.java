@@ -128,8 +128,6 @@ public class HttpUtils {
         builder.addConverterFactory(new NullOnEmptyConverterFactory());
         builder.addConverterFactory(GsonConverterFactory.create(getGson()));
         builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
-        // TODO: 2017/12/4  新增init
-//        init(MyApplication.getInstance(), true);
 
         return builder;
     }

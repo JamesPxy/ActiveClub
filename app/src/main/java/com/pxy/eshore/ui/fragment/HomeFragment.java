@@ -2,8 +2,10 @@ package com.pxy.eshore.ui.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pxy.eshore.R;
+import com.pxy.eshore.bean.HotMovieBean;
+import com.pxy.eshore.http.MyApi;
 import com.pxy.recyclerbaner.RecyclerBannerBase;
 import com.pxy.recyclerbaner.RecyclerBannerNormal;
+import com.tamic.novate.BaseSubscriber;
+import com.tamic.novate.Novate;
+import com.tamic.novate.Throwable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +34,7 @@ public class HomeFragment extends Fragment {
     private RecyclerBannerNormal bannerNormal;
     private TextView tvMsg;
     private String message;
+    private Context mContext;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -45,7 +53,9 @@ public class HomeFragment extends Fragment {
         tvMsg = view.findViewById(R.id.message);
         bannerNormal = view.findViewById(R.id.banner1);
         tvMsg.setText(message);
+        mContext = getActivity();
         setBanner();
+//        getTop250();
         return view;
     }
 
@@ -63,7 +73,6 @@ public class HomeFragment extends Fragment {
         list.add("http://business.cdn.qianqian.com/qianqian/pic/bos_client_1513327830057bc1862a54edaeb8c5c4f6168d2511.jpg");
         list.add("http://business.cdn.qianqian.com/qianqian/pic/bos_client_1513328061a3fff3d24ea8daae55e02d41615958cb.jpg");
 
-
         bannerNormal.initBannerImageView(list, new RecyclerBannerBase.OnBannerItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -71,5 +80,49 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    private void getTop250() {
+        Novate novate = new Novate.Builder(getActivity())
+                .baseUrl("http://api.douban.com/")
+                .addLog(true)
+                .addCache(true)
+                .build();
+
+        MyApi myAPI = novate.create(MyApi.class);
+//        novate.call(myAPI.getHotMovie(), new RxStringCallback() {
+//            @Override
+//            public void onNext(Object tag, String response) {
+//                Toast.makeText(mContext, "onNext---" + response, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onError(Object tag, Throwable e) {
+//                Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onCancel(Object tag, Throwable e) {
+//                Toast.makeText(mContext, "onCancel", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+        //法2：
+        novate.schedulersMain(myAPI.getHotMovie())
+                .subscribe(new BaseSubscriber<HotMovieBean>(mContext) {
+                    @Override
+                    public void onNext(HotMovieBean hotMovieBean) {
+                        Toast.makeText(mContext, hotMovieBean.toString(), Toast.LENGTH_SHORT).show();
+                        Log.i("666", "onNext: hotmoviebean=" + hotMovieBean.toString());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.i("666", "onError: " + e.getMessage());
+                    }
+                });
+
+    }
+
 
 }

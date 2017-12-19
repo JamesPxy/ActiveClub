@@ -32,6 +32,12 @@ android {
 
 }
 repositories {
+    flatDir {
+        dirs 'libs'
+    }
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -63,4 +69,5 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:2.0.1'
     implementation 'org.greenrobot:greendao:3.2.0'
     implementation project(':recyclerbaner')
+    implementation(name: 'novate', ext: 'aar')
 }
