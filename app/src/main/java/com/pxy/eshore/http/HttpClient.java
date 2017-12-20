@@ -20,13 +20,17 @@ import rx.Observable;
  */
 public interface HttpClient {
 
+    boolean isNeedCache = true;
+
     class Builder {
         public static HttpClient getDouBanService() {
             return HttpUtils.getInstance().getDouBanServer(HttpClient.class);
         }
+
         public static HttpClient getTingServer() {
             return HttpUtils.getInstance().getTingServer(HttpClient.class);
         }
+
         public static HttpClient getGankIOServer() {
             return HttpUtils.getInstance().getGankIOServer(HttpClient.class);
         }

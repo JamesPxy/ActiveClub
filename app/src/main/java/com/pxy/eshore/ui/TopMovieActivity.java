@@ -14,6 +14,7 @@ import com.pxy.eshore.bean.HotMovieBean;
 import com.pxy.eshore.bean.moviechild.SubjectsBean;
 import com.pxy.eshore.databinding.ActivityTopMovieBinding;
 import com.pxy.eshore.http.HttpClient;
+import com.pxy.eshore.http.MySubscriber;
 import com.pxy.eshore.http.network.cache.ACache;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -32,6 +33,7 @@ public class TopMovieActivity extends BaseActivity<ActivityTopMovieBinding> {
     private int mCount = 20;
     private DouBanTopAdapter mDouBanTopAdapter;
     private ACache aCache;
+    private boolean isFirst = true;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -43,13 +45,16 @@ public class TopMovieActivity extends BaseActivity<ActivityTopMovieBinding> {
         aCache = ACache.get(this);
 
         //请求获取豆瓣TOP250电影数据
-        getTop250Movie();
+//        getTop250Movie();
+        getDouBanTop250();
 
         bindingView.refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
+                isFirst = false;
                 mStart += mCount;
-                getTop250Movie();
+//                getTop250Movie();
+                getDouBanTop250();
             }
         });
     }
@@ -61,19 +66,52 @@ public class TopMovieActivity extends BaseActivity<ActivityTopMovieBinding> {
             bindingView.recyclerview.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
             bindingView.recyclerview.setAdapter(mDouBanTopAdapter);
         } else {
-            mDouBanTopAdapter.clear();
+//            mDouBanTopAdapter.clear();
             mDouBanTopAdapter.addAll(data);
             //构造器中，第一个参数表示列数或者行数，第二个参数表示滑动方向,瀑布流
             mDouBanTopAdapter.notifyDataSetChanged();
         }
-        bindingView.refreshLayout.finishLoadmore();
+        if (isFirst) {
+            showContentView();
+        } else {
+            bindingView.refreshLayout.finishLoadmore();
+        }
     }
 
 
     @Override
     protected void onRefresh() {
-        getTop250Movie();
+//        getTop250Movie();
+        //为了测试加载效果加此限制
+        mStart = 0;
+        getDouBanTop250();
     }
+
+    public void getDouBanTop250() {
+        Subscription subscription = HttpClient.Builder.getDouBanService().getMovieTop250(mStart, mCount)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<HotMovieBean>(Constants.DOUBAN_TOP_MOVIE + mStart + mCount) {
+
+                    @Override
+                    public void doError(Throwable e) {
+                        if (mDouBanTopAdapter.getData().size() > 0) return;
+                        if (!isFirst) bindingView.refreshLayout.finishLoadmore();
+                        showError();
+                    }
+
+                    @Override
+                    public void doSuccess(HotMovieBean hotMovieBean) {
+                        if (hotMovieBean != null && hotMovieBean.getSubjects() != null && hotMovieBean.getSubjects().size() > 0) {
+                            setAdapter(hotMovieBean.getSubjects());
+                        } else {
+                            showError();
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
+
 
     private void getTop250Movie() {
         final Subscription subscription = HttpClient.Builder.getDouBanService().getMovieTop250(mStart, mCount)
