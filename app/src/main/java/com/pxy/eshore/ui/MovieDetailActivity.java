@@ -14,11 +14,13 @@ import android.widget.Toast;
 import com.pxy.eshore.R;
 import com.pxy.eshore.adapter.MovieDetailAdapter;
 import com.pxy.eshore.base.BaseHeaderActivity;
+import com.pxy.eshore.base.Constants;
 import com.pxy.eshore.bean.MovieDetailBean;
 import com.pxy.eshore.bean.moviechild.SubjectsBean;
 import com.pxy.eshore.databinding.ActivityMovieDetailBinding;
 import com.pxy.eshore.databinding.HeaderSlideShapeBinding;
 import com.pxy.eshore.http.HttpClient;
+import com.pxy.eshore.http.MySubscriber;
 import com.pxy.eshore.utils.CommonUtils;
 import com.pxy.eshore.utils.StringFormatUtil;
 
@@ -56,7 +58,8 @@ public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBind
         bindingHeaderView.setSubjectsBean(subjectsBean);
         bindingHeaderView.executePendingBindings();
 
-        loadMovieDetail();
+//        loadMovieDetail();
+        loadMovieDetailNew();
     }
 
     @Override
@@ -118,7 +121,43 @@ public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBind
                     }
                 });
         addSubscription(get);
+    }
 
+    private void loadMovieDetailNew() {
+        String id = subjectsBean.getId();
+        String key = Constants.DOUBAN_MOVIE_DETAIL + id;
+        Subscription subscription = HttpClient.Builder.getDouBanService().getMovieDetail(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<MovieDetailBean>(key) {
+                    @Override
+                    public void onCompleted() {
+                        showContentView();
+                    }
+
+                    @Override
+                    public void doError(Throwable e) {
+                        showError();
+                    }
+
+                    @Override
+                    public void doSuccess(MovieDetailBean movieDetailBean) {
+                        Log.d(TAG, "onNext: " + movieDetailBean.toString());
+                        // 上映日期
+                        bindingHeaderView.tvOneDay.setText(String.format("上映日期：%s", movieDetailBean.getYear()));
+                        // 制片国家
+                        bindingHeaderView.tvOneCity.setText(String.format("制片国家/地区：%s", StringFormatUtil.formatGenres(movieDetailBean.getCountries())));
+                        bindingHeaderView.setMovieDetailBean(movieDetailBean);
+                        bindingContentView.setBean(movieDetailBean);
+                        bindingContentView.executePendingBindings();
+
+                        mMoreUrl = movieDetailBean.getAlt();
+                        mMovieName = movieDetailBean.getTitle();
+
+                        transformData(movieDetailBean);
+                    }
+                });
+        addSubscription(subscription);
     }
 
     /**
@@ -165,6 +204,7 @@ public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBind
 
     @Override
     protected void onRefresh() {
+//        loadMovieDetail();
         loadMovieDetail();
     }
 

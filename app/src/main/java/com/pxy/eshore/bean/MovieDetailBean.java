@@ -8,9 +8,10 @@ import com.pxy.eshore.bean.moviechild.ImagesBean;
 import com.pxy.eshore.bean.moviechild.PersonBean;
 import com.pxy.eshore.bean.moviechild.RatingBean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MovieDetailBean extends BaseObservable {
+public class MovieDetailBean extends BaseObservable implements Serializable {
 
 
     /**

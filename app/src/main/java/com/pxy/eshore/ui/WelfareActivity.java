@@ -7,16 +7,17 @@ import android.util.Log;
 import com.pxy.eshore.R;
 import com.pxy.eshore.adapter.WelfareAdapter;
 import com.pxy.eshore.base.BaseActivity;
+import com.pxy.eshore.base.Constants;
 import com.pxy.eshore.bean.GankIoDataBean;
 import com.pxy.eshore.databinding.ActivityWelfareBinding;
 import com.pxy.eshore.http.HttpClient;
+import com.pxy.eshore.http.MySubscriber;
 import com.scwang.smartrefresh.header.BezierCircleHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -76,24 +77,23 @@ public class WelfareActivity extends BaseActivity<ActivityWelfareBinding> {
         Subscription subscriptions = HttpClient.Builder.getGankIOServer().getGankIoData(id, page, prePage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GankIoDataBean>() {
+                .subscribe(new MySubscriber<GankIoDataBean>(Constants.GANK_MEIZI + id + page) {
+                    @Override
+                    public void doError(Throwable e) {
+                        showError();
+                        Log.e(TAG, "doError: msg=" + e.getMessage());
+                    }
+
+                    @Override
+                    public void doSuccess(GankIoDataBean gankIoDataBean) {
+                        setWelfareAdapter(gankIoDataBean);
+                    }
+
                     @Override
                     public void onCompleted() {
                         Log.e(TAG, "onCompleted: ");
                         showContentView();
                         bindingView.refreshLayout.finishLoadmore();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e.getMessage());
-                        showError();
-                    }
-
-                    @Override
-                    public void onNext(GankIoDataBean gankIoDataBean) {
-                        Log.e(TAG, "onNext: " + gankIoDataBean.toString());
-                        setWelfareAdapter(gankIoDataBean);
                     }
                 });
         addSubscription(subscriptions);

@@ -61,14 +61,20 @@ public abstract class MySubscriber<T> extends Subscriber<T> {
     @Override
     public void onNext(T t) {
         //需要缓存则每次网络请求后 更新缓存
-        if (HttpClient.isNeedCache) {
-            Log.i("6666", "onNext: save cache  data");
-            //处理缓存相关
-            if (null != t) {
-                aCache.remove(key);
-                // 保存12个小时
-                aCache.put(key, (Serializable) t, Constants.CACHE_TIME);
+        try {
+            if (HttpClient.isNeedCache) {
+                Log.i("6666", "onNext: save cache  data");
+                //处理缓存相关
+                if (null != t) {
+                    aCache.remove(key);
+                    // 保存12个小时 此处可能报类型覆盖错误异常
+                    aCache.put(key, (Serializable) t, Constants.CACHE_TIME);
+                }
             }
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            aCache.remove(key);
+
         }
         doSuccess(t);
     }
