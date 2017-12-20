@@ -145,6 +145,4 @@ public class HotMovieActivity extends BaseActivity<ActivityHotMovieBinding> {
                 });
         addSubscription(subscription);
     }
-
-
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +21,7 @@ import com.pxy.eshore.ui.HotMovieActivity;
 import com.pxy.eshore.ui.TopMovieActivity;
 import com.pxy.eshore.ui.WelfareActivity;
 import com.pxy.eshore.ui.fragment.HomeFragment;
+import com.pxy.eshore.ui.fragment.HotMovieFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,10 +40,10 @@ public class MainActivity extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    showFragment(new HomeFragment("Home"));
+                    showFragment(new HotMovieFragment());
                     return true;
                 case R.id.navigation_dashboard:
-                    showFragment(new HomeFragment("Dashboard"));
+                    showFragment(new HomeFragment("Home"));
                     return true;
                 case R.id.navigation_notifications:
                     showFragment(new HomeFragment("Notifications"));
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         context = this;
         setDrawerLayout();
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        showFragment(new HomeFragment("首页"));
+        showFragment(new HotMovieFragment());
     }
 
     /**
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity
      *
      * @param home
      */
-    private void showFragment(HomeFragment home) {
+    private void showFragment(Fragment home) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, home);
         transaction.commit();

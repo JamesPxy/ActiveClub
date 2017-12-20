@@ -1,5 +1,6 @@
 package com.pxy.eshore.base;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.AnimationDrawable;
@@ -38,6 +39,8 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
     private AnimationDrawable mAnimationDrawable;
     private CompositeSubscription mCompositeSubscription;
 
+    protected Context  mContext;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
         bindingView.getRoot().setLayoutParams(params);
         mContainer = (RelativeLayout) ll.findViewById(R.id.container);
         mContainer.addView(bindingView.getRoot());
+        mContext=getActivity();
         return ll;
     }
 
@@ -94,6 +98,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
             mAnimationDrawable.start();
         }
         mRefresh = getView(R.id.ll_error_refresh);
+        onRefresh();
         // 点击加载失败布局
         mRefresh.setOnClickListener(new PerfectClickListener() {
             @Override

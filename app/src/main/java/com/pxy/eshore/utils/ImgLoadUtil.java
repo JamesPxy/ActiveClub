@@ -137,6 +137,16 @@ public class ImgLoadUtil {
         displayEspImage(url, imageView, defaultPicType);
     }
 
+    @BindingAdapter("android:showIcon")
+    public static void showIcon(ImageView imageView, String imageUrl) {
+        Glide.with(imageView.getContext())
+                .load(imageUrl)
+                .placeholder(R.drawable.img_one_bi_one)
+                .error(R.drawable.img_one_bi_one)
+                .crossFade(1500)
+                .into(imageView);
+    }
+
     /**
      * 电影详情页显示电影图片(等待被替换)（测试的还在，已可以弃用）
      * 没有加载中的图
