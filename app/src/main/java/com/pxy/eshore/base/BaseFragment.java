@@ -39,7 +39,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
     private AnimationDrawable mAnimationDrawable;
     private CompositeSubscription mCompositeSubscription;
 
-    protected Context  mContext;
+    protected Context mContext;
 
     @Nullable
     @Override
@@ -48,9 +48,9 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
         bindingView = DataBindingUtil.inflate(getActivity().getLayoutInflater(), setContent(), null, false);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         bindingView.getRoot().setLayoutParams(params);
-        mContainer = (RelativeLayout) ll.findViewById(R.id.container);
+        mContainer = ll.findViewById(R.id.container);
         mContainer.addView(bindingView.getRoot());
-        mContext=getActivity();
+        mContext = getActivity();
         return ll;
     }
 
@@ -98,7 +98,6 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
             mAnimationDrawable.start();
         }
         mRefresh = getView(R.id.ll_error_refresh);
-        onRefresh();
         // 点击加载失败布局
         mRefresh.setOnClickListener(new PerfectClickListener() {
             @Override

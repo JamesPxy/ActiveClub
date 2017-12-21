@@ -56,7 +56,7 @@ public class HotMovieActivity extends BaseActivity<ActivityHotMovieBinding> {
 
     private void setAdapter() {
         if (null == hotMovieAdapter) {
-            hotMovieAdapter = new HotMovieAdapter(data);
+            hotMovieAdapter = new HotMovieAdapter(context,data);
             bindingView.recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             bindingView.recyclerview.setAdapter(hotMovieAdapter);
         }

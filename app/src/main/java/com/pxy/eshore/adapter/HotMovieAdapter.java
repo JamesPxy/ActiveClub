@@ -1,13 +1,17 @@
 package com.pxy.eshore.adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.pxy.eshore.R;
 import com.pxy.eshore.bean.moviechild.SubjectsBean;
 import com.pxy.eshore.databinding.ItemHotMovieBinding;
+import com.pxy.eshore.ui.MovieDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +19,17 @@ import java.util.List;
 /**
  * @author JamesPxy
  * @date 2017/12/11  16:06
- * @Description  热映电影adapter
+ * @Description 热映电影adapter
  */
 
 public class HotMovieAdapter extends RecyclerView.Adapter<HotMovieAdapter.MyViewHolder> {
 
     List<SubjectsBean> data = new ArrayList<>();
+    private Context context;
 
-    public HotMovieAdapter(List<SubjectsBean> data) {
+    public HotMovieAdapter(Context context, List<SubjectsBean> data) {
         this.data = data;
+        this.context = context;
     }
 
     @Override
@@ -32,7 +38,15 @@ public class HotMovieAdapter extends RecyclerView.Adapter<HotMovieAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        holder.binding.llOneItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 跳去电影详情页面
+                MovieDetailActivity.start((Activity) context,
+                        data.get(position), holder.binding.ivOnePhoto);
+            }
+        });
         holder.binding.setSubjectsBean(data.get(position));
         holder.binding.executePendingBindings();
     }

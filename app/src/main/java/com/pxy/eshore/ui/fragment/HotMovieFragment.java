@@ -1,10 +1,11 @@
 package com.pxy.eshore.ui.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.pxy.eshore.R;
@@ -16,6 +17,7 @@ import com.pxy.eshore.bean.moviechild.SubjectsBean;
 import com.pxy.eshore.databinding.FragmentHotMovieBinding;
 import com.pxy.eshore.http.HttpClient;
 import com.pxy.eshore.http.MySubscriber;
+import com.pxy.eshore.ui.TopMovieActivity;
 
 import java.util.List;
 
@@ -26,13 +28,15 @@ import rx.schedulers.Schedulers;
 /**
  * @author JamesPxy
  * @date 2017/12/20  16:19
- * @Description
+ * @Description 热映电影对应fragment
  */
 
 public class HotMovieFragment extends BaseFragment<FragmentHotMovieBinding> {
 
+    private String TAG = "HotMovieFragment";
     private HotMovieAdapter hotMovieAdapter;
     private List<SubjectsBean> data;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,14 +44,20 @@ public class HotMovieFragment extends BaseFragment<FragmentHotMovieBinding> {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        bindingView.ll_movie_top.setOnclickListtener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(mContext, TopMovieActivity.class));
-//            }
-//        });
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        bindingView.llMovieTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, TopMovieActivity.class));
+            }
+        });
+        onRefresh();
+    }
+
+    @Override
+    protected void loadData() {
+        Log.i(TAG, "loadData has  excuated");
     }
 
     @Override
@@ -57,12 +67,13 @@ public class HotMovieFragment extends BaseFragment<FragmentHotMovieBinding> {
 
     @Override
     protected void onRefresh() {
+        if (null != hotMovieAdapter && hotMovieAdapter.getItemCount() > 0) return;
         getHotMovie();
     }
 
     private void setAdapter() {
         if (null == hotMovieAdapter) {
-            hotMovieAdapter = new HotMovieAdapter(data);
+            hotMovieAdapter = new HotMovieAdapter(mContext, data);
             bindingView.recyclerview.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
             bindingView.recyclerview.setAdapter(hotMovieAdapter);
             showContentView();
