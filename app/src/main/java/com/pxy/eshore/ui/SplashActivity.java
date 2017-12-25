@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.pxy.eshore.MainActivity;
 import com.pxy.eshore.R;
 import com.pxy.eshore.base.ConstantsImageUrl;
 import com.pxy.eshore.databinding.ActivitySplashBinding;

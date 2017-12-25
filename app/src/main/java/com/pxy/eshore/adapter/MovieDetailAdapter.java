@@ -10,6 +10,7 @@ import com.pxy.eshore.base.baseadapter.BaseRecyclerViewHolder;
 import com.pxy.eshore.bean.moviechild.PersonBean;
 import com.pxy.eshore.databinding.ItemMovieDetailPersonBinding;
 import com.pxy.eshore.utils.PerfectClickListener;
+import com.pxy.eshore.webview.WebViewActivity;
 
 /**
  * 电影详情适配器
@@ -34,8 +35,8 @@ public class MovieDetailAdapter extends BaseRecyclerViewAdapter<PersonBean> {
                 @Override
                 protected void onNoDoubleClick(View v) {
                     if (bean != null && !TextUtils.isEmpty(bean.getAlt())) {
-                        // TODO: 2017/12/1   调转至演员详情 
-//                        WebViewActivity.loadUrl(v.getContext(), bean.getAlt(), bean.getName());
+                        //跳转至演员详情
+                        WebViewActivity.loadUrl(v.getContext(), bean.getAlt(), bean.getName());
                     }
                 }
             });

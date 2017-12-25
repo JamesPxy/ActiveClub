@@ -1,4 +1,4 @@
-package com.pxy.eshore;
+package com.pxy.eshore.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,10 +27,9 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
-import com.pxy.eshore.ui.HotMovieActivity;
-import com.pxy.eshore.ui.TopMovieActivity;
-import com.pxy.eshore.ui.WelfareActivity;
-import com.pxy.eshore.ui.fragment.HomeFragment;
+import com.pxy.eshore.R;
+import com.pxy.eshore.ui.fragment.AndroidFragment;
+import com.pxy.eshore.ui.fragment.NewsFragment;
 import com.pxy.eshore.ui.fragment.HotMovieFragment;
 
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity
 
     private FragmentTabHost tabHost;
     private ViewPager viewPager;
-    private Class fragmentArray[] = {HotMovieFragment.class, HomeFragment.class, HomeFragment.class};
+    private Class fragmentArray[] = {HotMovieFragment.class, NewsFragment.class, NewsFragment.class};
     private int imageViewArray[] = {R.drawable.selector_tab_home, R.drawable.selector_tab_music, R.drawable.selector_tab_home};
     private String textViewArray[] = {"电影", "音乐", "我的"};
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
@@ -137,8 +136,9 @@ public class MainActivity extends AppCompatActivity
     /*初始化Fragment*/
     private void setViewPager() {
         fragmentList.add(new HotMovieFragment());
-        fragmentList.add(new HomeFragment("音乐"));
-        fragmentList.add(new HomeFragment("我的"));
+        fragmentList.add(AndroidFragment.newInstance("all"));
+//        fragmentList.add(AndroidFragment.newInstance("Android"));
+        fragmentList.add(new NewsFragment());
         //绑定Fragment适配器
         viewPager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager()));
         //设置预加载个数 默认为1

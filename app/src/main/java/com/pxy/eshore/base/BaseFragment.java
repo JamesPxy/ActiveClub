@@ -193,9 +193,7 @@ public abstract class BaseFragment<SV extends ViewDataBinding> extends Fragment 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (this.mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
-            this.mCompositeSubscription.unsubscribe();
-        }
+        removeSubscription();
     }
 
     public void removeSubscription() {

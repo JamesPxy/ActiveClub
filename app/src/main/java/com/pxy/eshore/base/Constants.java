@@ -20,7 +20,7 @@ public class Constants {
     // 豆瓣电影详情
     public static String DOUBAN_MOVIE_DETAIL = "douban_movie_detail";
 
-    // 首页没日推荐缓存
+    // 首页每日推荐缓存
     public static String GANK_ALL = "gank_all";
     // 安卓数据
     public static String GANK_ANDROID = "gank_android";
