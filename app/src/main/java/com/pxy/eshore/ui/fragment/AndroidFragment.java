@@ -13,7 +13,7 @@ import com.pxy.eshore.databinding.FragmentAndroidBinding;
 import com.pxy.eshore.http.HttpUtils;
 import com.pxy.eshore.http.network.RequestImpl;
 import com.pxy.eshore.http.network.cache.ACache;
-import com.pxy.eshore.model.GankOtherModel;
+import com.pxy.eshore.model.GankModel;
 import com.pxy.eshore.utils.DebugUtil;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -22,7 +22,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import rx.Subscription;
 
 /**
- * 安卓博客对应 fragment
+ * 安卓对应 fragment
  */
 public class AndroidFragment extends BaseFragment<FragmentAndroidBinding> {
 
@@ -35,7 +35,7 @@ public class AndroidFragment extends BaseFragment<FragmentAndroidBinding> {
     private AndroidAdapter mAndroidAdapter;
     private ACache mACache;
     private GankIoDataBean mAndroidBean;
-    private GankOtherModel mModel;
+    private GankModel mModel;
 
     public static AndroidFragment newInstance(String type) {
         AndroidFragment fragment = new AndroidFragment();
@@ -63,7 +63,7 @@ public class AndroidFragment extends BaseFragment<FragmentAndroidBinding> {
         super.onActivityCreated(savedInstanceState);
 
         mACache = ACache.get(getContext());
-        mModel = new GankOtherModel();
+        mModel = new GankModel();
 //        mAndroidBean = (GankIoDataBean) mACache.getAsObject(Constants.GANK_ANDROID);
         DebugUtil.error(TAG + "AndroidFragment  onActivityCreated");
         mAndroidAdapter = new AndroidAdapter();
@@ -103,6 +103,7 @@ public class AndroidFragment extends BaseFragment<FragmentAndroidBinding> {
     }
 
     private void loadAndroidData() {
+        DebugUtil.debug("loadAndroidData  page=" + mPage);
         mModel.setData(mType, mPage, HttpUtils.per_page_more);
         mModel.getGankIoData(new RequestImpl() {
             @Override
@@ -151,12 +152,13 @@ public class AndroidFragment extends BaseFragment<FragmentAndroidBinding> {
      * 设置adapter
      */
     private void setAdapter(GankIoDataBean mAndroidBean) {
-        mAndroidAdapter.clear();
+//        mAndroidAdapter.clear();
         mAndroidAdapter.addAll(mAndroidBean.getResults());
-        bindingView.xrvAndroid.setLayoutManager(new LinearLayoutManager(getActivity()));
-        bindingView.xrvAndroid.setAdapter(mAndroidAdapter);
+        bindingView.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        bindingView.recyclerview.setAdapter(mAndroidAdapter);
         mAndroidAdapter.notifyDataSetChanged();
         bindingView.refreshLayout.finishRefresh();
+        bindingView.refreshLayout.finishLoadmore();
 
         mIsFirst = false;
     }
@@ -167,17 +169,5 @@ public class AndroidFragment extends BaseFragment<FragmentAndroidBinding> {
     @Override
     protected void onRefresh() {
         loadAndroidData();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        DebugUtil.error(TAG + "   ----onDestroy");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        DebugUtil.error(TAG + "   ----onResume");
     }
 }

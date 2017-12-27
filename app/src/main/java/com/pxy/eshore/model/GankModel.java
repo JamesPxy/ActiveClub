@@ -16,7 +16,7 @@ import rx.schedulers.Schedulers;
  * 其实代码量也没有减少多少，但维护起来方便。
  */
 
-public class GankOtherModel {
+public class GankModel {
 
     private String id;
     private int page;
@@ -39,13 +39,11 @@ public class GankOtherModel {
                     @Override
                     public void onError(Throwable e) {
                         listener.loadFailed();
-
                     }
 
                     @Override
                     public void onNext(GankIoDataBean gankIoDataBean) {
                         listener.loadSuccess(gankIoDataBean);
-
                     }
                 });
         listener.addSubscription(subscription);

@@ -7,10 +7,6 @@ import android.net.Uri;
 import com.pxy.eshore.R;
 
 
-/**
- * Created by jingbin on 2016/12/28.
- */
-
 public class ShareUtils {
 
     public static void share(Context context, int stringRes) {

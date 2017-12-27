@@ -1,23 +1,38 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.pxy.eshore.ui.fragment.NewsFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.pxy.recyclerbaner.RecyclerBannerNormal
-        android:id="@+id/banner1"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        app:indicatorGravity="center"
-        app:interval="3000" />
-    <!--
-        app:indicatorSelectedSrc="@drawable/icon_white"
-        app:indicatorUnselectedSrc="@drawable/icon_black"
-        app:itemSpace="5dp"
-    -->
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <com.pxy.recyclerbaner.RecyclerBannerNormal
+            android:id="@+id/banner1"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:indicatorGravity="center"
+            app:interval="3000" />
+        <!--
+            app:indicatorSelectedSrc="@drawable/icon_white"
+            app:indicatorUnselectedSrc="@drawable/icon_black"
+            app:itemSpace="5dp"
+        -->
 
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbarFadeDuration="1"
+                android:scrollbarSize="4dp"
+                android:scrollbarThumbVertical="@color/tabBackground"
+                android:scrollbars="vertical" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+</layout>

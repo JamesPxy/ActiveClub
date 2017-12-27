@@ -96,7 +96,7 @@ public class WebViewActivity extends AppCompatActivity implements IWebPageView {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.actionbar_share:// 分享到
-                        String shareText = mWebChromeClient.getTitle() + mUrl + "（分享自云阅）";
+                        String shareText = mWebChromeClient.getTitle() + mUrl + "（分享自ActionClub）";
                         ShareUtils.share(WebViewActivity.this, shareText);
                         break;
                     case R.id.actionbar_cope:// 复制链接

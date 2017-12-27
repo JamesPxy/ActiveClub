@@ -39,7 +39,7 @@ public abstract class MySubscriber<T> extends Subscriber<T> {
         if (HttpClient.isNeedCache && !CheckNetwork.isNetworkConnected(MyApplication.getInstance())) {
             T model = (T) aCache.getAsObject(key);
             if (null == model) return;
-            Log.i("6666", "onStart: get  cache  success=" + model.toString());
+            Log.i("MySubscriber", "onStart: get  cache  success=" + model.toString());
             doSuccess(model);
             isFromCache = true;
             onCompleted();
@@ -48,12 +48,12 @@ public abstract class MySubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onCompleted() {
-        Log.i("6666", "onCompleted in  baseSubscriber");
+        Log.i("MySubscriber", "onCompleted in  baseSubscriber");
     }
 
     @Override
     public void onError(Throwable e) {
-        Log.i("6666", "onError in  baseSubscriber");
+        Log.i("MySubscriber", "onError in  baseSubscriber");
         if (isFromCache) return;
         doError(e);
     }
@@ -63,7 +63,7 @@ public abstract class MySubscriber<T> extends Subscriber<T> {
         //需要缓存则每次网络请求后 更新缓存
         try {
             if (HttpClient.isNeedCache) {
-                Log.i("6666", "onNext: save cache  data");
+                Log.i("MySubscriber", "onNext: save cache  data");
                 //处理缓存相关
                 if (null != t) {
                     aCache.remove(key);

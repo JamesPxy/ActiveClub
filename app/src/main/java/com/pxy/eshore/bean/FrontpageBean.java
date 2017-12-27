@@ -36,7 +36,7 @@ public class FrontpageBean implements Serializable {
         this.module = module;
     }
 
-    public static class ResultBeanXXXXXXXXXXXXXX implements Serializable{
+    public static class ResultBeanXXXXXXXXXXXXXX implements Serializable {
 
         //        private Mix9Bean mix_9;
         private FocusBean focus;
@@ -165,7 +165,7 @@ public class FrontpageBean implements Serializable {
 //            this.king = king;
 //        }
 
-        public static class Mix9Bean implements Serializable{
+        public static class Mix9Bean implements Serializable {
             /**
              * error_code : 22000
              * result : [{"desc":"","pic":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_14881961592cabd31510b72889843bd232e71e6150.jpg","type_id":"http://y.baidu.com/tbang","type":4,"title":"T榜第一期年榜决选","tip_type":0,"author":""},{"desc":"","pic":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_148842760200a2d30ad296101a488dd781929454dc.jpg","type_id":"http://y.baidu.com/cms/topic/webapp/2017/xiaolaohu/index.html","type":4,"title":"独家专访\u201c小老虎\u201d","tip_type":0,"author":""},{"desc":"","pic":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_1488178404cd220d60e2b0b2f98f66987f3c5ff44b.jpg","type_id":"354332843","type":0,"title":"悠悠古调，如约而至","tip_type":0,"author":""}]
@@ -267,7 +267,7 @@ public class FrontpageBean implements Serializable {
             }
         }
 
-        public static class FocusBean implements Serializable{
+        public static class FocusBean implements Serializable {
             /**
              * error_code : 22000
              * result : [{"randpic":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_14885355757dfa7fd7ab2c300433d381dcdf4713c1.jpg","code":"325272266","mo_type":2,"type":2,"is_publish":"111111","randpic_iphone6":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_14885355757dfa7fd7ab2c300433d381dcdf4713c1.jpg","randpic_desc":"Green Light"},{"randpic":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_1488520099caa081bb4eae93b92581475d9c14a8d7.jpg","code":"http://music.baidu.com/h5pc/spec_detail?id=172&columnid=88","mo_type":4,"type":6,"is_publish":"111111","randpic_iphone6":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_1488520099caa081bb4eae93b92581475d9c14a8d7.jpg","randpic_desc":"华语乐坛的那些幕后大师们\u2014陈小霞（上）"},{"randpic":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_1488508408be15e6a434fb4f847ae3f82f3a580fc6.jpg","code":"533370111","mo_type":2,"type":2,"is_publish":"111111","randpic_iphone6":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_1488508408be15e6a434fb4f847ae3f82f3a580fc6.jpg","randpic_desc":"爱又爱"},{"randpic":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_14883513291b6d3c35953ee8a240d4d28f7e8a9635.jpg","code":"http://music.baidu.com/cms/webview/bigwig/xusong0229/index.html","mo_type":4,"type":6,"is_publish":"111111","randpic_iphone6":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_14883513291b6d3c35953ee8a240d4d28f7e8a9635.jpg","randpic_desc":"许嵩青年晚报演唱会"},{"randpic":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_14885265473476d3353b56fb91c17eb64283d67003.jpg","code":"http://music.baidu.com/cms/webview/bigwig/20170303/index.html","mo_type":4,"type":6,"is_publish":"111111","randpic_iphone6":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_14885265473476d3353b56fb91c17eb64283d67003.jpg","randpic_desc":"广告"}]
@@ -292,7 +292,7 @@ public class FrontpageBean implements Serializable {
                 this.result = result;
             }
 
-            public static class ResultBeanX {
+            public static class ResultBeanX implements Serializable {
 
                 private String randpic;
                 private String code;
@@ -360,7 +360,7 @@ public class FrontpageBean implements Serializable {
             }
         }
 
-        public static class Mix22Bean implements Serializable{
+        public static class Mix22Bean implements Serializable {
 
             private int error_code;
             private List<ResultBeanXX> result;
@@ -458,7 +458,7 @@ public class FrontpageBean implements Serializable {
             }
         }
 
-        public static class ShowListBean implements Serializable{
+        public static class ShowListBean implements Serializable {
             /**
              * error_code : 22000
              * result : [{"type":"learn","picture_iphone6":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_73fd36cf0747dbe57d614e1bb9619941.jpg","picture":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_6dd2a7b10ce1ec57eeb6ab08e48f227d.jpg","web_url":"http://music.baidu.com/cms/webview/ktv_activity/20170220/index.html"},{"type":"learn","picture_iphone6":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_016beec46a0dcd0e5f13b833fb48d561.jpg","picture":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_0c1de026bdcde37137344a5b92e73b92.jpg","web_url":"http://music.baidu.com/cms/webview/ktv_activity/20170120/index.html"},{"type":"learn","picture_iphone6":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_2bc81ed7070a7db830a9c8309080d2f4.jpg","picture":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_2b983ddd40a431e1b66a6cb290f0a770.jpg","web_url":"http://music.baidu.com/cms/webview/ktv_activity/20170112/"}]
@@ -530,7 +530,7 @@ public class FrontpageBean implements Serializable {
             }
         }
 
-        public static class EntryBean implements Serializable{
+        public static class EntryBean implements Serializable {
             /**
              * error_code : 22000
              * result : [{"day":"","title":"歌手","icon":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_14639875926652ed7c4988517cab87526f15d8f359.jpg","jump":"2"},{"day":"","title":"歌曲分类","icon":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_146398764316d87d01865b91f90a598777b1569fdf.jpg","jump":"1"},{"day":"03","title":"今日推荐歌曲","icon":"http://business.cdn.qianqian.com/qianqian/pic/bos_client_1463987629793f4361391282bde14d9b19156cfac3.jpg","jump":"0"}]
@@ -602,7 +602,7 @@ public class FrontpageBean implements Serializable {
             }
         }
 
-        public static class SceneBean implements Serializable{
+        public static class SceneBean implements Serializable {
 
             private ResultBeanXXXXX result;
             private int error_code;
@@ -670,7 +670,7 @@ public class FrontpageBean implements Serializable {
                     this.other = other;
                 }
 
-                public static class ActionBean implements Serializable{
+                public static class ActionBean implements Serializable {
                     /**
                      * icon_ios : http://b.hiphotos.baidu.com/ting/pic/item/94cad1c8a786c917cd5a64c9cf3d70cf3ac757e0.jpg
                      * scene_name : 在路上
@@ -756,7 +756,7 @@ public class FrontpageBean implements Serializable {
                     }
                 }
 
-                public static class EmotionBean implements Serializable{
+                public static class EmotionBean implements Serializable {
                     /**
                      * icon_ios : http://d.hiphotos.baidu.com/ting/pic/item/7acb0a46f21fbe094353e1e46d600c338744ad34.jpg
                      * scene_name : 轻松
@@ -1957,7 +1957,7 @@ public class FrontpageBean implements Serializable {
         }
     }
 
-    public static class ModuleBean implements Serializable{
+    public static class ModuleBean implements Serializable {
         /**
          * link_url :
          * pos : 1

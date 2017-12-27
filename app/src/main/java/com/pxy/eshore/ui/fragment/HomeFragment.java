@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +15,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pxy.eshore.R;
+import com.pxy.eshore.adapter.AndroidAdapter;
 import com.pxy.eshore.base.Constants;
 import com.pxy.eshore.bean.FrontpageBean;
 import com.pxy.eshore.bean.GankIoDataBean;
+import com.pxy.eshore.databinding.FragmentHomeBinding;
 import com.pxy.eshore.http.HttpClient;
 import com.pxy.eshore.http.MySubscriber;
+import com.pxy.eshore.utils.DebugUtil;
+import com.pxy.eshore.utils.ToastUtil;
 import com.pxy.recyclerbaner.RecyclerBannerBase;
 import com.pxy.recyclerbaner.RecyclerBannerNormal;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,17 +43,19 @@ import rx.subscriptions.CompositeSubscription;
  * @time 2017/12/15  11:05
  * @Description 首页对应fragment
  */
-public class NewsFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
     private String TAG = getClass().getSimpleName();
     private RecyclerBannerNormal bannerNormal;
     private TextView tvMsg;
     private Context mContext;
     private CompositeSubscription mCompositeSubscription;
+    private FragmentHomeBinding bindingView;
 
     List<String> bannerList = new ArrayList<>();
     private final int MSG_SHOW_BANNER = 0X001;
     private final int MSG_GET_BANNER_ERROR = 0X003;
+    private final int MSG_SET_ADAPTER = 0X005;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -57,6 +67,9 @@ public class NewsFragment extends Fragment {
                 case MSG_GET_BANNER_ERROR:
                     setBanner(false);
                     break;
+                case MSG_SET_ADAPTER:
+                    setAdapter();
+                    break;
             }
 
         }
@@ -64,9 +77,11 @@ public class NewsFragment extends Fragment {
 
     private int page = 1;
     private int prePage = 15;
+    private AndroidAdapter adapter;
+    private GankIoDataBean gankIoDataBean;
 
 
-    public NewsFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -74,13 +89,28 @@ public class NewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        bannerNormal = view.findViewById(R.id.banner1);
+        bindingView = FragmentHomeBinding.bind(view);
         mContext = getActivity();
-        Log.i(TAG, "NewsFragment onCreateView");
+        Log.i(TAG, "HomeFragment onCreateView");
         //获取首页轮播图
         getBannerUrls();
         //获取gankIoData
         getGankIoData();
+
+        bindingView.refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                page = 1;
+                getGankIoData();
+            }
+        });
+        bindingView.refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                page++;
+                getGankIoData();
+            }
+        });
 
         return view;
     }
@@ -105,12 +135,30 @@ public class NewsFragment extends Fragment {
             bannerList.add("http://business.cdn.qianqian.com/qianqian/pic/bos_client_1513334741efc21a1f3db87a58d73eb462a4b3fe96.jpg");
             bannerList.add("http://business.cdn.qianqian.com/qianqian/pic/bos_client_1513327830057bc1862a54edaeb8c5c4f6168d2511.jpg");
         }
-        bannerNormal.initBannerImageView(bannerList, new RecyclerBannerBase.OnBannerItemClickListener() {
+        bindingView.banner1.initBannerImageView(bannerList, new RecyclerBannerBase.OnBannerItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 Toast.makeText(getActivity(), "clicked position=" + position, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /**
+     * 设置adapter
+     */
+    private void setAdapter() {
+        if (null == adapter) {
+            adapter = new AndroidAdapter();
+            adapter.clear();
+            adapter.addAll(gankIoDataBean.getResults());
+            bindingView.recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+            bindingView.recyclerview.setAdapter(adapter);
+        } else {
+            adapter.addAll(gankIoDataBean.getResults());
+            adapter.notifyDataSetChanged();
+        }
+        bindingView.refreshLayout.finishRefresh();
+        bindingView.refreshLayout.finishLoadmore();
     }
 
     /**
@@ -143,25 +191,30 @@ public class NewsFragment extends Fragment {
     }
 
     /**
-     * 获取gankIo数据
+     * 获取gankIo  不区分类型 all 数据
      */
     private void getGankIoData() {
-        Log.i(TAG, "getGankIoData: excuted");
-        Subscription subscription = HttpClient.Builder.getGankIOServer().getGankIoData("Android", page, prePage)
+        DebugUtil.debug("getGankIoData: excuted");
+        Subscription subscription = HttpClient.Builder.getGankIOServer().getGankIoData("all", page, prePage)
                 .subscribeOn(Schedulers.io())
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<GankIoDataBean>(Constants.GANK_ANDROID) {
+                .subscribe(new MySubscriber<GankIoDataBean>(Constants.GANK_ALL) {
                     @Override
                     public void doError(Throwable e) {
                         Log.e(TAG, "doError: getGankIoData");
+                        ToastUtil.showToast("get data  error");
 
                     }
 
                     @Override
-                    public void doSuccess(GankIoDataBean gankIoDataBean) {
-                        Log.i(TAG, "doSuccess: gankIoData=\n" + gankIoDataBean.toString());
+                    public void doSuccess(GankIoDataBean bean) {
+                        if (bean != null && bean.getResults() != null && bean.getResults().size() > 0) {
+                            gankIoDataBean = bean;
+                            mHandler.sendEmptyMessage(MSG_SET_ADAPTER);
+                        }
                     }
                 });
+
         addSubscription(subscription);
     }
 
