@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pxy.eshore.R;
 import com.pxy.eshore.adapter.AndroidAdapter;
@@ -24,6 +23,7 @@ import com.pxy.eshore.http.HttpClient;
 import com.pxy.eshore.http.MySubscriber;
 import com.pxy.eshore.utils.DebugUtil;
 import com.pxy.eshore.utils.ToastUtil;
+import com.pxy.eshore.webview.WebViewActivity;
 import com.pxy.recyclerbaner.RecyclerBannerBase;
 import com.pxy.recyclerbaner.RecyclerBannerNormal;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -138,7 +138,8 @@ public class HomeFragment extends Fragment {
         bindingView.banner1.initBannerImageView(bannerList, new RecyclerBannerBase.OnBannerItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(getActivity(), "clicked position=" + position, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "clicked position=" + position, Toast.LENGTH_SHORT).show();
+                WebViewActivity.loadUrl(getActivity(), bannerList.get(position), "音乐不老");
             }
         });
     }

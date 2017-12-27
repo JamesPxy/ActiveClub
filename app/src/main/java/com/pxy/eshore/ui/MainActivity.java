@@ -31,6 +31,9 @@ import com.pxy.eshore.R;
 import com.pxy.eshore.ui.fragment.AndroidFragment;
 import com.pxy.eshore.ui.fragment.HomeFragment;
 import com.pxy.eshore.ui.fragment.HotMovieFragment;
+import com.pxy.eshore.utils.ShareUtils;
+import com.pxy.eshore.utils.ToastUtil;
+import com.pxy.eshore.webview.WebViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +49,8 @@ public class MainActivity extends AppCompatActivity
     private FragmentTabHost tabHost;
     private ViewPager viewPager;
     private Class fragmentArray[] = {HotMovieFragment.class, HomeFragment.class, HomeFragment.class};
-    private int imageViewArray[] = {R.drawable.selector_tab_home, R.drawable.selector_tab_music, R.drawable.selector_tab_home};
-    private String textViewArray[] = {"电影", "音乐", "我的"};
+    private int imageViewArray[] = {R.drawable.selector_tab_home, R.drawable.selector_tab_movie, R.drawable.selector_tab_mine};
+    private String textViewArray[] = {"首页", "电影", "安卓"};
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
 
     @Override
@@ -135,10 +138,10 @@ public class MainActivity extends AppCompatActivity
 
     /*初始化Fragment*/
     private void setViewPager() {
+        fragmentList.add(new HomeFragment());
         fragmentList.add(new HotMovieFragment());
 //        fragmentList.add(AndroidFragment.newInstance("all"));
         fragmentList.add(AndroidFragment.newInstance("Android"));
-        fragmentList.add(new HomeFragment());
         //绑定Fragment适配器
         viewPager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager()));
         //设置预加载个数 默认为1
@@ -167,12 +170,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            ToastUtil.showToast("just do  it");
+            WebViewActivity.loadUrl(context, "https://github.com/JamesPxy", "我的Github");
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -191,9 +194,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            String shareText = "GitHub："+"https://github.com/JamesPxy" + "（分享自ActionClub）";
+            ShareUtils.share(context, shareText);
 
         } else if (id == R.id.nav_send) {
-
+            WebViewActivity.loadUrl(context, "http://pengxiaoyong.win/", "我的博客");
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

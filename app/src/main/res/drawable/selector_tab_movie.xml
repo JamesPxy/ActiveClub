@@ -2,6 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 指定选择时和未被选择的图片 -->
-    <item android:drawable="@drawable/home_icon_rank_prs" android:state_selected="true" />
-    <item android:drawable="@drawable/home_icon_rank" />
+    <item android:drawable="@drawable/home_icon_fm_prs" android:state_selected="true" />
+    <item android:drawable="@drawable/home_icon_fm" />
 </selector>
