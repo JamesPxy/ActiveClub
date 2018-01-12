@@ -32,7 +32,6 @@ import com.pxy.eshore.ui.fragment.AndroidFragment;
 import com.pxy.eshore.ui.fragment.HomeFragment;
 import com.pxy.eshore.ui.fragment.HotMovieFragment;
 import com.pxy.eshore.utils.ShareUtils;
-import com.pxy.eshore.utils.ToastUtil;
 import com.pxy.eshore.webview.WebViewActivity;
 
 import java.util.ArrayList;
@@ -172,7 +171,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            ToastUtil.showToast("just do  it");
+//            ToastUtil.showToast("just do  it");
             WebViewActivity.loadUrl(context, "https://github.com/JamesPxy", "我的Github");
             return true;
         }
