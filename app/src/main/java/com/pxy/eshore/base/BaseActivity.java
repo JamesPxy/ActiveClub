@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.pxy.eshore.R;
+import com.pxy.eshore.bean.moviechild.SubjectsBean;
 import com.pxy.eshore.databinding.ActivityBaseBinding;
 import com.pxy.eshore.utils.PerfectClickListener;
 import com.pxy.eshore.utils.StatusBarUtil;
@@ -23,9 +24,9 @@ import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- *@author JamesPxy
- *@time   2017/11/30  15:34
- *@Description  基础activity封装
+ * @author JamesPxy
+ * @time 2017/11/30  15:34
+ * @Description 基础activity封装
  */
 public class BaseActivity<SV extends ViewDataBinding> extends AppCompatActivity {
 

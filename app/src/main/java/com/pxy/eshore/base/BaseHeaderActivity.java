@@ -49,7 +49,7 @@ import rx.subscriptions.CompositeSubscription;
  * 电影
  * 书籍
  * 音乐等详情页
- * 根布局：fitsSystemWindows 惹的祸
+ * 根布局：fitsSystemWindows
  */
 public abstract class BaseHeaderActivity<HV extends ViewDataBinding, SV extends ViewDataBinding> extends AppCompatActivity {
 

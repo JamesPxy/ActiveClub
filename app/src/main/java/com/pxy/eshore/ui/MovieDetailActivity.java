@@ -109,7 +109,8 @@ public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBind
                         // 上映日期
                         bindingHeaderView.tvOneDay.setText(String.format("上映日期：%s", movieDetailBean.getYear()));
                         // 制片国家
-                        bindingHeaderView.tvOneCity.setText(String.format("制片国家/地区：%s", StringFormatUtil.formatGenres(movieDetailBean.getCountries())));
+                        bindingHeaderView.tvOneCity.setText(String.format("制片国家/地区：%s",
+                                StringFormatUtil.formatGenres(movieDetailBean.getCountries())));
                         bindingHeaderView.setMovieDetailBean(movieDetailBean);
                         bindingContentView.setBean(movieDetailBean);
                         bindingContentView.executePendingBindings();
@@ -146,7 +147,8 @@ public class MovieDetailActivity extends BaseHeaderActivity<HeaderSlideShapeBind
                         // 上映日期
                         bindingHeaderView.tvOneDay.setText(String.format("上映日期：%s", movieDetailBean.getYear()));
                         // 制片国家
-                        bindingHeaderView.tvOneCity.setText(String.format("制片国家/地区：%s", StringFormatUtil.formatGenres(movieDetailBean.getCountries())));
+                        bindingHeaderView.tvOneCity.setText(String.format("制片国家/地区：%s",
+                                StringFormatUtil.formatGenres(movieDetailBean.getCountries())));
                         bindingHeaderView.setMovieDetailBean(movieDetailBean);
                         bindingContentView.setBean(movieDetailBean);
                         bindingContentView.executePendingBindings();
