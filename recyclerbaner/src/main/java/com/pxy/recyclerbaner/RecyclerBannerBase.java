@@ -34,6 +34,7 @@ import java.util.List;
  * @author JamesPxy
  * @time 2017/12/14
  * @Description 轮播组件基类
+ * https://juejin.im/post/5a13a28c51882512a860ee6a
  */
 public abstract class RecyclerBannerBase<L extends RecyclerView.LayoutManager, A extends BaseBannerAdapter> extends FrameLayout {
 
@@ -102,7 +103,7 @@ public abstract class RecyclerBannerBase<L extends RecyclerView.LayoutManager, A
         itemSpace = a.getDimensionPixelSize(R.styleable.RecyclerBanner_itemSpace, dp2px(5));
         mSelectedDrawable = a.getDrawable(R.styleable.RecyclerBanner_indicatorSelectedSrc);
         mUnselectedDrawable = a.getDrawable(R.styleable.RecyclerBanner_indicatorUnselectedSrc);
-        mSelectedColor = a.getColor(R.styleable.RecyclerBanner_indicatorSelectedColor, android.R.color.white);
+        mSelectedColor = a.getColor(R.styleable.RecyclerBanner_indicatorSelectedColor, android.R.color.holo_red_dark);
         mUnSelectedColor = a.getColor(R.styleable.RecyclerBanner_indicatorUnselectedColor, android.R.color.black);
         if (mSelectedDrawable == null) {
             //绘制默认选中状态图形

@@ -9,6 +9,7 @@ import com.pxy.eshore.bean.MovieDetailBean;
 import com.pxy.eshore.bean.book.BookBean;
 import com.pxy.eshore.bean.book.BookDetailBean;
 
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
@@ -63,7 +64,7 @@ public interface HttpClient {
      * 豆瓣热映电影，每日更新
      */
     @Headers("Cache-Control : public, max-age = 3600")
-    @GET("v2/movie/in_theaters")
+    @GET("v2/movie/in_theaters?apikey=0df993c66c0c636e29ecbb5344252a4a")
     Observable<HotMovieBean> getHotMovie();
 
     /**
@@ -72,18 +73,18 @@ public interface HttpClient {
      * @param id 电影bean里的id
      */
     @Headers("Cache-Control : public, max-age = 3600")
-    @GET("v2/movie/subject/{id}")
+    @GET("v2/movie/subject/{id}?apikey=0df993c66c0c636e29ecbb5344252a4a")
     Observable<MovieDetailBean> getMovieDetail(@Path("id") String id);
 
     /**
      * 获取豆瓣电影top250
-     *
+     *?apikey=0df993c66c0c636e29ecbb5344252a4a
      * @param start 从多少开始，如从"0"开始
      * @param count 一次请求的数目，如"10"条，最多100
      */
     @Headers("Cache-Control : public, max-age = 3600")
     @GET("v2/movie/top250")
-    Observable<HotMovieBean> getMovieTop250(@Query("start") int start, @Query("count") int count);
+    Observable<HotMovieBean> getMovieTop250(@Query("apikey") String key, @Query("start") int start, @Query("count") int count);
 
     /**
      * 根据tag获取图书

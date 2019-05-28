@@ -14,3 +14,5 @@
 .idea/modules.xml
 .idea/encodings.xml
 gradle.properties
+.idea/caches/gradle_models.ser
+.idea/caches/build_file_checksums.ser

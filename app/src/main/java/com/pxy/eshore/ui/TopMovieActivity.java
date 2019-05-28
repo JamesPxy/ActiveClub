@@ -88,7 +88,7 @@ public class TopMovieActivity extends BaseActivity<ActivityTopMovieBinding> {
     }
 
     public void getDouBanTop250() {
-        Subscription subscription = HttpClient.Builder.getDouBanService().getMovieTop250(mStart, mCount)
+        Subscription subscription = HttpClient.Builder.getDouBanService().getMovieTop250("0df993c66c0c636e29ecbb5344252a4a",mStart, mCount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MySubscriber<HotMovieBean>(Constants.DOUBAN_TOP_MOVIE + mStart + mCount) {
@@ -114,7 +114,7 @@ public class TopMovieActivity extends BaseActivity<ActivityTopMovieBinding> {
 
 
     private void getTop250Movie() {
-        final Subscription subscription = HttpClient.Builder.getDouBanService().getMovieTop250(mStart, mCount)
+        final Subscription subscription = HttpClient.Builder.getDouBanService().getMovieTop250("0df993c66c0c636e29ecbb5344252a4a",mStart, mCount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HotMovieBean>() {

@@ -6,12 +6,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.pxy.recyclerbaner.RecyclerBannerNormal
+        <com.pxy.recyclerbaner.RecyclerBannerStereo
             android:id="@+id/banner1"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             app:indicatorGravity="center"
-            app:interval="3000" />
+            app:interval="2000"
+            app:showIndicator="false" />
         <!--
             app:indicatorSelectedSrc="@drawable/icon_white"
             app:indicatorUnselectedSrc="@drawable/icon_black"
